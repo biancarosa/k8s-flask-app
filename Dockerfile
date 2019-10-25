@@ -1,11 +1,10 @@
 FROM python:3.7.2-alpine3.7
 
-RUN apk add --no-cache --update git make gcc python3-dev musl-dev && \
-    set -ex && \
-    pip install --no-cache-dir pipenv==10.1.2
+RUN pip install pipenv
 
+COPY . /app
 WORKDIR /app
-ADD . .
 
-RUN set -ex && \
-    pipenv install --dev --system --deploy
+RUN pipenv install --system --deploy --ignore-pipfile
+
+CMD ["gunicorn", "app.main:app", "-w", "4", "-b", "0.0.0.0:5000", "-t", "1000"]
