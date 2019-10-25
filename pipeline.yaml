@@ -19,7 +19,6 @@ stages:
       inputs:
         versionSpec: '3.7'
         architecture: 'x64'
-
     - script: pip install pipenv
       displayName: 'Install pipenv'
 
@@ -43,3 +42,17 @@ stages:
         codeCoverageTool: Cobertura
         summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
         reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+
+- stage: Build and Push
+  jobs:
+  - job: BuildAndPush
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: 'biancarosa/k8s-flask-app'
+        command: 'buildAndPush'
+        Dockerfile: 'Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
