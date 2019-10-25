@@ -28,7 +28,7 @@ metadata:
   labels:
     app: k8s-flask-app
 spec:
-  replicas: 8
+  replicas: 3
   selector:
     matchLabels:
       app: k8s-flask-app
