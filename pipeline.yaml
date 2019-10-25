@@ -56,3 +56,27 @@ stages:
         tags: |
           $(Build.BuildId)
           latest
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'k8s-flask-app-cluster'
+        command: 'apply'
+        arguments: '-f kubernetes/configmap.yaml'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'k8s-flask-app-cluster'
+        command: 'apply'
+        arguments: '-f kubernetes/secrets.yaml'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+    - task: Kubernetes@1
+      inputs:
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'k8s-flask-app-cluster'
+        command: 'apply'
+        arguments: '-f kubernetes/deployment.yaml'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
