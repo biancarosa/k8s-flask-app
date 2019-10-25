@@ -1,22 +1,16 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [dev-packages]
-
 pylint = "*"
 "autopep8" = "*"
-
+pytest = "*"
 
 [packages]
-
 flask = "==1.0.4"
 gunicorn = "==19.9.0"
 
-
 [requires]
-
 python_version = "3.7"
