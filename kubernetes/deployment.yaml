@@ -1,19 +1,19 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: flask-app-consumer
+  name: k8s-flask-app
 spec:
   replicas: 8
   template:
     metadata:
       labels:
-        app: flask-app-consumer
+        app: k8s-flask-app
     spec:
       containers:
-        - name: flask-app-consumer
-          image: FLASK_APP
+        - name: k8s-flask-app
+          image: biancarosa/k8s-flask-app
           envFrom:
             - configMapRef:
-                name: flask-app-consumer-env
+                name: k8s-flask-app-env
             - secretRef:
-                name: flask-app-consumer-secrets
+                name: k8s-flask-app-secrets
