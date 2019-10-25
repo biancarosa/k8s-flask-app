@@ -43,7 +43,7 @@ stages:
         summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
         reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
 
-- stage: Build and Push
+- stage: BuildAndPush
   jobs:
   - job: BuildAndPush
     steps:
