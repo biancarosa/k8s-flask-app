@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: UsePythonVersion@0
+    displayName: 'Use Python 3.7'
+    inputs:
+      versionSpec: '3.7'
+      architecture: 'x64'
+
+  - script: pip install pipenv
+    displayName: 'Install pipenv'
+
+  - script: pipenv install --system --dev --deploy --ignore-pipfile
+    displayName: 'Install dependencies'
+
+  - script: make coverage
+    displayName: 'Run tests'
+
+  - script: make lint
+    displayName: 'Run lint'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFiles: '**/test-*.xml'
+      testRunTitle: 'Publish test results for Python 3.7'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: "$(System.DefaultWorkingDirectory)"
+      contents: "kubernetes/*"
+      targetFolder: "$(Build.ArtifactStagingDirectory)"
