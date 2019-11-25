@@ -52,9 +52,10 @@ stages:
           $(Build.BuildId)
           latest
 
-- stage: Deploy
+- stage: Approval
   jobs:
-  - job: Deploy
+  - job: AskForApproval
+    pool: server
     steps:
     - task: AzureFunction@1
       inputs:
@@ -62,7 +63,11 @@ stages:
         key: '$(MY_FUNCTION_KEY)'
         method: 'POST'
         waitForCompletion: 'true'
-    
+
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
