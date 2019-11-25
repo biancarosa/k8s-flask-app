@@ -56,6 +56,13 @@ stages:
   jobs:
   - job: Deploy
     steps:
+    - task: AzureFunction@1
+      inputs:
+        function: 'https://approval-check.azurewebsites.net/'
+        key: '$(MY_FUNCTION_KEY)'
+        method: 'POST'
+        waitForCompletion: 'true'
+    
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
