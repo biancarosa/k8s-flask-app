@@ -56,6 +56,7 @@ stages:
   jobs:
   - job: AskForApproval
     pool: server
+    timeoutInMinutes: 240
     steps:
     - task: AzureFunction@1
       inputs:
