@@ -5,6 +5,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
+- stage: Approval
+  jobs:
+  - job: AskForApproval
+    pool: server
+    timeoutInMinutes: 240
+    steps:
+    - task: AzureFunction@1
+      inputs:
+        function: 'https://us-central1-automation-nonprd.cloudfunctions.net/function-1'
+        key: '$(MY_FUNCTION_KEY)'
+        method: 'POST'
+        waitForCompletion: 'true'
+
 - stage: Test
   jobs:
   - job: Test
@@ -51,19 +64,6 @@ stages:
         tags: |
           $(Build.BuildId)
           latest
-
-- stage: Approval
-  jobs:
-  - job: AskForApproval
-    pool: server
-    timeoutInMinutes: 240
-    steps:
-    - task: AzureFunction@1
-      inputs:
-        function: 'https://us-central1-automation-nonprd.cloudfunctions.net/function-1'
-        key: '$(MY_FUNCTION_KEY)'
-        method: 'POST'
-        waitForCompletion: 'true'
 
 - stage: Deploy
   jobs:
