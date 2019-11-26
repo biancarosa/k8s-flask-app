@@ -60,7 +60,7 @@ stages:
     steps:
     - task: AzureFunction@1
       inputs:
-        function: 'https://approval-check.azurewebsites.net/'
+        function: 'https://us-central1-automation-nonprd.cloudfunctions.net/function-1'
         key: '$(MY_FUNCTION_KEY)'
         method: 'POST'
         waitForCompletion: 'true'
