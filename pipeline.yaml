@@ -11,12 +11,70 @@ stages:
     pool: server
     timeoutInMinutes: 240
     steps:
+    # - task: AzureFunction@1
+    #   inputs:
+    #     function: 'https://us-central1-automation-nonprd.cloudfunctions.net/function-1'
+    #     key: $(MY_FUNCTION_KEY)
+    #     method: 'POST'
+    #     waitForCompletion: 'true'
     - task: AzureFunction@1
       inputs:
         function: 'https://us-central1-automation-nonprd.cloudfunctions.net/function-1'
-        key: $(MY_FUNCTION_KEY)
+        key: 'MY_FUNCTION_KEY'
         method: 'POST'
+        headers: |
+          {
+              "Content-Type":"application/json"
+          }
+        body: |
+          {
+              "PlanUrl": "$(system.CollectionUri)", 
+              "ProjectId": "$(system.TeamProjectId)", 
+              "HubName": "$(system.HostType)", 
+              "PlanId": "$(system.PlanId)", 
+              "JobId": "$(system.JobId)", 
+              "TimelineId": "$(system.TimelineId)", 
+              "TaskInstanceId": "$(system.TaskInstanceId)", 
+              "AuthToken": "$(system.AccessToken)",
+              "AzureDevOpsChangeTracker": {
+                  "Release.DefinitionName":"$(Release.DefinitionName)",
+                  "Release.DefinitionId":"$(Release.DefinitionId)",
+                  "Release.ReleaseName":"$(Release.ReleaseName)",
+                  "Release.ReleaseId":"$(Release.ReleaseId)",
+                  "Release.ReleaseUri":"$(Release.ReleaseUri)",
+                  "Release.ReleaseDescription":"$(Release.ReleaseDescription)",
+                  "Release.RequestedFor":"$(Release.RequestedFor)",
+                  "Release.RequestedForEmail":"$(Release.RequestedForEmail)",
+                  "Release.EnvironmentName":"$(Release.EnvironmentName)",
+                  "Release.EnvironmentId":"$(Release.EnvironmentId)",
+                  "Release.EnvironmentUri":"$(Release.EnvironmentUri)",
+                  "Release.DefinitionEnvironmentId":"$(Release.DefinitionEnvironmentId)",
+                  "Release.AttemptNumber":"$(Release.AttemptNumber)",
+                  "Release.Deployment.RequestedFor":"$(Release.Deployment.RequestedFor)",
+                  "Release.Deployment.RequestedForId":"$(Release.Deployment.RequestedForId)",
+                  "Release.DeploymentID":"$(Release.DeploymentID)",
+                  "Release.DeployPhaseID":"$(Release.DeployPhaseID)",
+                  "Release.ReleaseWebURL":"$(Release.ReleaseWebURL)",
+                  "Release.TriggeringArtifact.Alias":"$(Release.TriggeringArtifact.Alias)",
+                  "System.TeamFoundationCollectionUri":"$(System.TeamFoundationCollectionUri)",
+                  "System.CollectionId":"$(System.CollectionId)",
+                  "System.TeamProject":"$(System.TeamProject)",
+                  "System.TeamProjectId":"$(System.TeamProjectId)",
+                  "Build.DefinitionId":"$(Build.DefinitionId)",
+                  "Build.DefinitionName":"$(Build.DefinitionName)",
+                  "Build.BuildNumber":"$(Build.BuildNumber)",
+                  "Build.BuildId":"$(Build.BuildId)",
+                  "Build.BuildURI":"$(Build.BuildURI)",
+                  "Build.SourceBranch":"$(Build.SourceBranch)",
+                  "Build.SourceBranchName":"$(Build.SourceBranchName)",
+                  "Build.SourceVersion":"$(Build.SourceVersion)",
+                  "Build.Repository.Provider":"$(Build.Repository.Provider)",
+                  "Build.RequestedForID":"$(Build.RequestedForID)",
+                  "Build.Type":"$(Build.Type)"
+              }
+          }
         waitForCompletion: 'true'
+        
 
 - stage: Test
   jobs:
