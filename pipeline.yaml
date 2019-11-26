@@ -14,7 +14,7 @@ stages:
     - task: AzureFunction@1
       inputs:
         function: 'https://us-central1-automation-nonprd.cloudfunctions.net/function-1'
-        key: '123'
+        key: $(MY_FUNCTION_KEY)
         method: 'POST'
         waitForCompletion: 'true'
 
