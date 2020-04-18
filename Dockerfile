@@ -10,4 +10,4 @@ RUN pipenv install --system --deploy --ignore-pipfile
 COPY . /app
 WORKDIR /app
 
-CMD ["gunicorn", "app.main:app", "-w", "4", "-b", "0.0.0.0:5000", "-t", "1000"]
+CMD ["gunicorn", "app.main:app", "-b", "0.0.0.0:5000", "-t", "1000"]
