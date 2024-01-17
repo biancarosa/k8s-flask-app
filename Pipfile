@@ -10,7 +10,7 @@ pytest = "*"
 pytest-cov = "*"
 
 [packages]
-flask = "==1.0.4"
+flask = "==2.2.5"
 gunicorn = "==19.9.0"
 
 [requires]
